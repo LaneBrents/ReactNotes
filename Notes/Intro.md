@@ -32,10 +32,10 @@ return <h1>I'm a header component!</h1>
 
 ### _How to Create a React App on our Local environment with Vite_
 
-1. Run: npm create vite@latest
+1. Run: `npm create vite@latest`
 2. Once ran, create the project and choose what framework we will use from the prompt
-3. Run: npm install
-4. Run: npm run dev
+3. Run: `npm install`
+4. Run: `npm run dev`
    - This opens the development server
    - Open the Url given to view the development server
 
@@ -50,14 +50,14 @@ return <h1>I'm a header component!</h1>
 ### Non-String Props
 
 - We use {} to use non-string props
-- Example: <Die numSides={20} />, This is for numbers.
-- Example: <ListPicker values={["a", "b", "c"]} />, This is for arrays and objects
+- Example: `<Die numSides={20} />`, This is for numbers.
+- Example: `<ListPicker values={["a", "b", "c"]} />`, This is for arrays and objects
 
 ### Ternary Expressions
 
 - These are very useful and common in the world of react.
 - They are in-line logic that will run like normal JavaScript
-- Example: {num1 === num2 ? <h3>They are the same!</h3> : null}, If num1=num2, return the h3, if not return null
+- Example: `{num1 === num2 ? <h3>They are the same!</h3> : null}, If num1=num2, return the h3, if not return null`
 
 ---
 
@@ -120,3 +120,62 @@ if (item.id === 3) {
     return item;
 }
 });`
+
+---
+
+### _Componenent Design_ (Do this section again sometime)
+
+---
+
+## _React Forms_
+
+- HTML form elements work differently than other DOM elements in React.
+  - Form elements naturally keep some internal state
+
+### Controlled Components
+
+`<form>
+Full Name:
+<input name="fullname" />
+<button>Add!</button>
+
+</form>`
+
+- It's convenient to have a JS function that
+  - Handles the submission of the form _and_
+  - has access to the data the user entered.
+- The technique to get this is _controlled components_
+
+### Accessibility: Labeling Inputs
+
+Good accessibility practice puts _<label>_ elements in forms:
+
+`<form>
+  <label htmlFor="fullname-input">Full Name:</label>
+  <input id="fullname-input" name="fullname" />
+  <button>Add!</button>
+</form>`
+
+### Handling Multiple Inputs
+
+To handle multiple controlled inputs:
+- Instead of making a seperate _onChange_ handler for every single input,we can make one generic function for multiple inputs
+- Add HTML _name_ attribute to each JSX input element
+- Then the handler function can determine the key in state to update based on _event.target.name_
+
+`const [formData, setFormData] = useState({
+  firstName = "",
+  lastName = ""
+});
+
+function handleChange(event) {
+  const fieldName = event.target.name;
+  const value = event.target.value;
+
+  setFormData(currentData => {
+    currentData[fieldName] = value;
+    return {...currentData};
+  });
+}`
+
+  Using this method, keys in state must match input _name_ attributes

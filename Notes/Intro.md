@@ -28,6 +28,25 @@ return <h1>I'm a header component!</h1>
 - You must explicitely close self-closing elements like <br/>
 - Components can only return a single element
 
+### Looping in JSX
+
+- It's comon to use _array.map()_ to output loops in JSX:
+  `
+export default function Friend() {
+  render() {
+  const {name, hobbies} = this.props;
+      return (
+        <div>
+          <h1>{name}</h1>
+          <ul>
+            <li>Singing</li>
+            <li>Dancing</li>
+          </ul>
+        </div>
+      )
+    }
+  }`
+
 ---
 
 ### _How to Create a React App on our Local environment with Vite_
@@ -151,31 +170,59 @@ Full Name:
 Good accessibility practice puts _<label>_ elements in forms:
 
 `<form>
-  <label htmlFor="fullname-input">Full Name:</label>
-  <input id="fullname-input" name="fullname" />
-  <button>Add!</button>
+<label htmlFor="fullname-input">Full Name:</label>
+<input id="fullname-input" name="fullname" />
+<button>Add!</button>
+
 </form>`
 
 ### Handling Multiple Inputs
 
 To handle multiple controlled inputs:
+
 - Instead of making a seperate _onChange_ handler for every single input,we can make one generic function for multiple inputs
 - Add HTML _name_ attribute to each JSX input element
 - Then the handler function can determine the key in state to update based on _event.target.name_
 
 `const [formData, setFormData] = useState({
-  firstName = "",
-  lastName = ""
+firstName = "",
+lastName = ""
 });
 
 function handleChange(event) {
-  const fieldName = event.target.name;
-  const value = event.target.value;
+const fieldName = event.target.name;
+const value = event.target.value;
 
-  setFormData(currentData => {
-    currentData[fieldName] = value;
-    return {...currentData};
-  });
+setFormData(currentData => {
+currentData[fieldName] = value;
+return {...currentData};
+});
 }`
 
-  Using this method, keys in state must match input _name_ attributes
+Using this method, keys in state must match input _name_ attributes
+
+### useEffect()
+
+- To use an effect, register it with _useEffect(fn)_:
+
+  - Common to inline these:
+    `import React, { useEffect } from 'react';
+
+  function MyComponent() {
+  useEffect(function myEffect() {
+  // ...Do something
+  });
+  // ...Rest of component
+  }`
+
+  - My effect always runs _after_ first render
+  - By default, my effect runs _after_ all re-renders
+
+#### 2nd argument to useEffect
+
+- useEffect(myCallbackFn);
+  - Runs _myCallbackFn_ effect after _every_ render
+- useEffect(myCallbackFn, [productId, userId])
+  - Runs _myCallbackFn_ effect only if _productId_ or _userId_ const changed
+- useEffect(myCallbackFn, [ ])
+  - Runs _myCallbackFn_ effect only the first time (on _mount_)
